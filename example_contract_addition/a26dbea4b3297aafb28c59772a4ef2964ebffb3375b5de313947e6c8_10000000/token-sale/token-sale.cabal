@@ -1,0 +1,68 @@
+cabal-version: 2.4
+
+name:                   token-sale
+version:                1.29.0
+description:            A plutus script for retreiving funds.
+author:                 The Ancient Kraken
+maintainer:             logical.mechanism@protonmail.com
+license:                AGPL-3.0-only
+build-type:             Simple
+
+Flag unexpected_thunks
+  Description:   Turn on unexpected thunks checks
+  Default:       False
+
+common base
+  build-depends: base >= 4.14 && < 4.15
+
+common project-config
+  default-language:     Haskell2010
+
+  default-extensions:   NoImplicitPrelude
+                        OverloadedStrings
+
+  ghc-options:          -Wall
+                        -Wcompat
+                        -Wincomplete-record-updates
+                        -Wpartial-fields
+                        -Wredundant-constraints
+
+common maybe-Win32
+  if os(windows)
+     build-depends:    Win32
+
+library
+  import:               base, project-config
+                      , maybe-Win32
+
+  if flag(unexpected_thunks)
+    cpp-options: -DUNEXPECTED_THUNKS
+
+  hs-source-dirs:       src
+
+  exposed-modules:      TokenSale
+
+  build-depends:        bytestring
+                      , cardano-api
+                      , plutus-ledger
+                      , plutus-ledger-api
+                      , plutus-tx
+                      , plutus-tx-plugin
+                      , serialise
+                      , text
+                      , containers
+
+  ghc-options: -fobject-code -fno-ignore-interface-pragmas -fno-omit-interface-pragmas
+
+executable token-sale
+  import:               base, project-config
+  hs-source-dirs:       app
+  main-is:              token-sale.hs
+  ghc-options:          -threaded -rtsopts "-with-rtsopts=-T"
+
+  build-depends:        cardano-api
+                      , cardano-ledger-alonzo
+                      , token-sale
+                      , plutus-ledger-api
+                      , bytestring
+

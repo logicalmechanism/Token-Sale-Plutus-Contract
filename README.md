@@ -35,6 +35,8 @@ validator = Scripts.validatorScript (typedValidator ts)
 
 ## Compiling the plutus script
 
+Inside the folder will be the cabal.project file and the token-sale directory. Change the directory into token-sale and run the commands below.
+
 ```bash
 cabal clean
 cabal build -w ghc-8.10.4
@@ -42,3 +44,9 @@ cabal run token-sale
 ```
 
 The folder should be named correctly and contain haskell code that when compiled following the instructions above will result in the correct plutus script.
+
+To get the smart contract address use the cardano-cli command below.
+
+```bash
+cardano-cli address build --mainnet --payment-script-file FILE #Filepath of the plutus script.
+```
