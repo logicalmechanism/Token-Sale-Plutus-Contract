@@ -16,9 +16,9 @@ After forking the repo, clone the repo onto your system. Make a copy of the defa
 ## Finding the public key hash
 
 ```bash
-cardano-cli address key-hash --payment-verification-key-file FILE #Filepath of the payment verification key.
+cardano-cli address key-hash --payment-verification-key-file FILE # Filepath of the payment verification key.
 # or use this command depending on the use case
-cardano-cli address key-hash --payment-verification-key STRING    #Payment verification key (Bech32-encoded)
+cardano-cli address key-hash --payment-verification-key STRING    # Payment verification key (Bech32-encoded)
 # For additional help please check out: cardano-cli address key-hash --help
 ```
 
@@ -48,5 +48,5 @@ The folder should be named correctly and contain haskell code that when compiled
 To get the smart contract address use the cardano-cli command below.
 
 ```bash
-cardano-cli address build --mainnet --payment-script-file FILE #Filepath of the plutus script.
+cardano-cli address build --mainnet --payment-script-file FILE # Filepath of the plutus script.
 ```

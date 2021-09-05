@@ -1,0 +1,1 @@
+This folder will contain all the available smart contracts from users that want to be publicly verified.
