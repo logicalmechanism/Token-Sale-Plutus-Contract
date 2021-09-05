@@ -1,0 +1,1 @@
+This folder contains example additions. Please ensure the pubkeyhash and lovelace amount are correct.
