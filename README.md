@@ -12,7 +12,7 @@ The folder containing the contract to be compiled will be placed in the contract
 
 # Usage
 
-After forking the repo, clone the repo onto your system. Make a copy of the default folder into the contracts folder. Change the name of the copied folder into the pubKeyHash of the wallet that will be receiving payments for tokens sold followed by the price of tokens inside this contract. Additions will not be granted if the naming scheme is not followed. 
+After forking the repo, clone the repo onto your system. Make a copy of the default folder into the contracts folder. Change the name of the copied folder into the pubKeyHash of the wallet that will be receiving payments for tokens sold followed by the price of tokens inside this contract. Additions will not be granted if the naming scheme is not followed. Place a copy of the wallets vkey, the public verification key, into the copied folder.
 
 A user will only need to edit the token-sale/src/TokenSale.hs file. The haskell code requires only two changes, any other changes will result in a failed contract addition. The user will only need to update the pubkeyhash and the price of the tokens. After the changes are made to the TokenSale.hs file, the user will need to compile the Haskell into Plutus such that other users can verify the correct output as well as have the correct plutus script file for usage.
 
@@ -29,15 +29,28 @@ cardano-cli address key-hash --payment-verification-key STRING    # Payment veri
 
 ## The Haskell to change
 
-Look for this section of code inside the token-sale/src/TokenSale.hs file, starts around line 109. The file to be edited should be inside the folder copied into the contracts folder.
+Look for this section of code inside the token-sale/src/TokenSale.hs file, starts around line 109. The file to be edited should be inside the folder copied into the contracts folder. Please only change the values of the seller address and the cost.
+
+The default file:
 
 ```hs
 validator :: Plutus.Validator
 validator = Scripts.validatorScript (typedValidator ts)
     where ts = TokenSaleParams { tsSellerAddress  = pubKeyHashAddress "PUB_KEY_HASH_HERE" -- Put in the seller's pubkeyhash here
-                               , tsCost           = INTEGER_PRICE_HERE                    -- Price for the token in lovelace
+                               , tsCost           = 1000000                               -- Price for the token in lovelace
                                }
 ```                               
+
+An example of a properly filled out plutus script:
+
+```hs
+validator :: Plutus.Validator
+validator = Scripts.validatorScript (typedValidator ts)
+    where ts = TokenSaleParams { tsSellerAddress  = pubKeyHashAddress "a26dbea4b3297aafb28c59772a4ef2964ebffb3375b5de313947e6c8" -- put in the seller address here
+                               , tsCost           = 10000000                                                                     -- Price for the token in lovelace
+                               }
+```
+The example above forces the buyer to pay the 10 ADA to the sellers address before the buyer can spend the token utxo.
 
 ## Compiling the plutus script
 
@@ -58,3 +71,7 @@ cardano-cli address build --mainnet --payment-script-file FILE # Filepath of the
 ```
 
 All additions that follow the format and can be compiled into the correct Plutus script will be added into the repository.
+
+# How the contract works
+
+The contract is very simple. To spend the UTxo of the token inside the smart contract. The buyer will attach the correct Datum and will create two UTxOs. One UTxo will go directly to the seller with the predefined lovelace amount and the other UTxo will be the token being sent to the buyer's address. The datum value is known before hand and follows the guidelines demostrated in the Token-Sale-Helper-Scripts repository. Please refer to that repository for more information.
