@@ -63,10 +63,10 @@ if __name__ == "__main__":
     WALLET_ADDR      = "wallet_address_here"
     WALLET_SKEY_PATH = "/path/to/wallet/payment.skey"
     
-    #
+    # tmp folder for trx files
     TMP = "/path/to/tmp/folder/"
     
-    #
+    # Over account for collateral
     COLLATERAL = 17000000
     
     split_for_collateral(TMP, WALLET_SKEY_PATH, WALLET_ADDR, COLLATERAL)
