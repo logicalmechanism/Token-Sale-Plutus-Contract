@@ -18,9 +18,11 @@
             <button class="btn btn-outline-primary" type="submit">Search</button>
           </form>
     </div>
-    <div class="card-group">
+    <div class="row">
         {% for entry in entries %}
-            {% include 'token.html' with buying='true' sellerHash=entry.sellerHash pid=entry.policyID tkn=entry.tokenName scriptAddress=entry.scriptAddress sellerAddress=entry.sellerAddress artistAddress=entry.artistAddress price=entry.price|intdiv:1000000 image=entry.image %}
+            <div class='col'>
+                {% include 'token.html' with buying='true' sellerHash=entry.sellerHash pid=entry.policyID tkn=entry.tokenName scriptAddress=entry.scriptAddress sellerAddress=entry.sellerAddress artistAddress=entry.artistAddress price=entry.price|intdiv:1000000 image=entry.image %}
+            </div>
         {% endfor %}
     </div>
 </body>

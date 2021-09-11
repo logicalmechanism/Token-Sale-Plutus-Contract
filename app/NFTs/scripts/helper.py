@@ -6,9 +6,12 @@ import requests
 def blockfrost_api_key():
     path = os.getcwd() + '/NFTs/blockfrost/api.key'
     # print(os.path.isfile(path))
-    with open(path, "r") as read_content:
-        api_key = read_content.read().splitlines()[0]
-    # print(api_key)
+    try:
+        with open(path, "r") as read_content:
+            api_key = read_content.read().splitlines()[0]
+    except IndexError:
+        api_key = ''
+    # print('apikey', api_key)
     return api_key
 
 

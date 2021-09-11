@@ -25,23 +25,31 @@ def error_page(request):
 
 def get_wallet_currency():
     vkey_path = os.getcwd() + '/NFTs/wallet/payment.vkey'
-    wallet_address = db.get_address_from_vkey(vkey_path, MAINNET)
-    db.get_script_balance(wallet_address, MAINNET)
-    currency = db.txin()
+    if not os.path.isfile(vkey_path):
+        print('\nNO payment.vkey inside wallet folder.\n')
+        currency = {}
+    else:
+        wallet_address = db.get_address_from_vkey(vkey_path, MAINNET)
+        db.get_script_balance(wallet_address, MAINNET)
+        currency = db.txin()
     # print(currency)
     return currency
 
 
 def find_collateral():
     vkey_path = os.getcwd() + '/NFTs/wallet/payment.vkey'
-    wallet_address = db.get_address_from_vkey(vkey_path, MAINNET)
-    db.get_script_balance(wallet_address, MAINNET)
-    file_name = os.getcwd() + '/tmp/utxo.json'
-    try:
-        with open(file_name, "r") as read_content:
-            data = json.load(read_content)
-    except FileNotFoundError:
-        data = ''
+    data = ''
+    if not os.path.isfile(vkey_path):
+        print('\nNO payment.vkey inside wallet folder.\n')
+    else:
+        wallet_address = db.get_address_from_vkey(vkey_path, MAINNET)
+        db.get_script_balance(wallet_address, MAINNET)
+        file_name = os.getcwd() + '/tmp/utxo.json'
+        try:
+            with open(file_name, "r") as read_content:
+                data = json.load(read_content)
+        except FileNotFoundError:
+            data = ''
     # print(data)
     collateral = {}
     for tx in data:
@@ -54,12 +62,18 @@ def find_collateral():
 
 def processing_order(request):
     vkey_path = os.getcwd() + '/NFTs/wallet/payment.vkey'
-    collateral = find_collateral()
+    address = ''
+    collateral = {}
+    if not os.path.isfile(vkey_path):
+        print('\nNO payment.vkey inside wallet folder.\n')
+    else:
+        address   = db.get_address_from_vkey(vkey_path, MAINNET)
+        collateral = find_collateral()
     context = {
         'balance': get_wallet_currency(),
         'block'  : db.current_block(MAINNET),
         'data'   : collateral,
-        'address' : db.get_address_from_vkey(vkey_path, MAINNET),
+        'address' : address,
     }
     return render(request, 'order.html', context)
 
@@ -218,8 +232,18 @@ def wallet(request):
     # print(search_value)
 
     currency = get_wallet_currency()
-    lovelace = currency['lovelace']
-    del currency['lovelace']
+    lovelace = {}
+    address = ''
+    vkey_path = os.getcwd() + '/NFTs/wallet/payment.vkey'
+    if not os.path.isfile(vkey_path):
+        print('\nNO payment.vkey inside wallet folder.\n')
+    else:
+        address = db.get_address_from_vkey(vkey_path, MAINNET)
+    try:
+        lovelace = currency['lovelace']
+        del currency['lovelace']
+    except KeyError:
+        pass
 
     # tokens = currency.copy()
     tokens = copy.deepcopy(currency)
@@ -242,7 +266,7 @@ def wallet(request):
     context = {
         'lovelace': lovelace, 
         'tokens'  : tokens, 
-        'address' : db.get_address_from_vkey(os.getcwd() + '/NFTs/wallet/payment.vkey', MAINNET),
+        'address' : address,
         'collat'  : find_collateral()
     }
     return render(request, 'wallet.html', context)
@@ -294,12 +318,23 @@ def index(request):
                 list_of_entries.append(entry)
         # raise Http404("Question does not exist")
     currency = get_wallet_currency()
-    lovelace = currency['lovelace']
-    del currency['lovelace']
+    lovelace = {}
+    try:
+        lovelace = currency['lovelace']
+        del currency['lovelace']
+    except KeyError:
+        pass
+
+    address = ''
+    vkey_path = os.getcwd() + '/NFTs/wallet/payment.vkey'
+    if not os.path.isfile(vkey_path):
+        print('\nNO payment.vkey inside wallet folder.\n')
+    else:
+        address = db.get_address_from_vkey(vkey_path, MAINNET)
     context = {
         'lovelace': lovelace, 
         'entries' : list_of_entries,
-        'address' : db.get_address_from_vkey(os.getcwd() + '/NFTs/wallet/payment.vkey', MAINNET),
+        'address' : address,
         'collat'  : find_collateral()
     }
     return render(request, 'index.html', context)

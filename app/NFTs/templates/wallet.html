@@ -21,10 +21,12 @@
             </form>
         </div>
     </div>
-    <div class="card-group">
+    <div class="row">
         {% for key, values in tokens.items %}
             {% for token, attr in values.items %}
-                {% include 'token.html' with pid=key tkn=token image=attr.image selling='true' %}
+                <div class="col">
+                    {% include 'token.html' with pid=key tkn=token image=attr.image selling='true' %}
+                </div>
             {% endfor %}    
         {% endfor %}
     </div>

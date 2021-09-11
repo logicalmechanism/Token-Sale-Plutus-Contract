@@ -31,4 +31,10 @@ Open your browser go to http://127.0.0.1:8000/
 
 If everything works, you will see all available tokens for sale inside the valid smart contracts.
 
+## Things I Have Noticed
+
+Each image is loaded with IPFS. Sometimes it can take a while to query every metadata image and then load it. Please be wait for images to load. It may be better to load the CLI wallet with only the tokens that will be sold that way it will reduce the load time for each image. In the future this will have to be accounted for when there are many smart contracts in use inside the marketplace.
+
+This is an alpha test so please be kind. Smart contracts are very new and Plutus development is a challenge. 
+
 ### PLEASE USE AT YOUR OWN RISK!
