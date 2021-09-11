@@ -75,3 +75,7 @@ All additions that follow the format and can be compiled into the correct Plutus
 # How the contract works
 
 The contract is very simple. To spend the UTxo of the token inside the smart contract. The buyer will attach the correct Datum and will create two UTxOs. One UTxo will go directly to the seller with the predefined lovelace amount and the other UTxo will be the token being sent to the buyer's address. The datum value is known before hand and follows the guidelines demostrated in the Token-Sale-Helper-Scripts repository. Please refer to that repository for more information.
+
+# Using the App
+
+The app is designed to be the frontend for interacting with the collection of smart contracts. The user has the choice of working with contracts by hand or by using the app provided in the app folder. The app is based around running a local webserver and displaying the tokens for sale in a convenient way. Please refer to the README.md inside the app folder for more information.

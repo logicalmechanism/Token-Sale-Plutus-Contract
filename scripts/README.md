@@ -19,7 +19,7 @@ folder/
         end_token_sale_contract.py
         split_utxo.py
         transaction.py
-    seller.vkey
+    payment.vkey
     script.plutus
 ```
 

@@ -1,0 +1,50 @@
+<div class="card ms-1 me-1" style="width: 18rem; border:1px solid #3d3d4d;">
+    <img src="{{ image }}" class="card-img-top" alt="ipfs not loading image">
+    <div class="card-body text-center">
+        <h5 class="card-title">{{ tkn }}</h5>
+        <p class="card-text">{{ pid }}</p>
+        {% if scriptAddress %}
+            <small class="card-text">Script Address:</small>
+            <p class="card-text">{{ scriptAddress }}</p>
+        {% endif %}
+        {% if sellerAddress %}
+            <small class="card-text">Seller Address:</small>
+            <p class="card-text">{{ sellerAddress }}</p>
+        {% endif %}
+        {% if sellerHash %}
+            <small class="card-text">Seller Hash:</small>
+            <p class="card-text">{{ sellerHash }}</p>
+        {% endif %}
+        {% if artistAddress %}
+            <small class="card-text">Artist Address:</small>
+            <p class="card-text">{{ artistAddress }}</p>
+        {% endif %}
+        {% if price %}
+            <p class="card-text">{{ price }} ADA</p>
+            {% endif %}
+        {% if amount %}
+            <p class="card-text">{{ amount }} {{ tkn }}</p>
+        {% endif %}
+        {% if buying %}
+        <form action='/buy' class="" method="POST">
+            {% csrf_token %}
+            <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="scriptAddress" value='{{ scriptAddress }}'>
+            <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="sellerAddress" value='{{ sellerAddress }}'>
+            <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="sellerHash"    value='{{ sellerHash }}'>
+            <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="artistAddress" value='{{ artistAddress }}'>
+            <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="price"         value='{{ price }}'>
+            <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="policyID"      value='{{ pid }}'>
+            <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="tokenName"     value='{{ tkn }}'>
+            <button class="btn btn-outline-success" type="submit">Buy</button>
+        </form>
+        {% endif %}
+        {% if selling %}
+            <form action='/sell' class="" method="POST">
+                {% csrf_token %}
+                <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="policyID"  value='{{ pid }}'>
+                <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="tokenName" value='{{ tkn }}'>
+                <button class="btn btn-outline-success" type="submit">Sell</button>
+            </form>
+        {% endif %}
+    </div>
+  </div>

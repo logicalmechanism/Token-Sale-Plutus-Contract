@@ -1,0 +1,1 @@
+This folder contains example code on the testnet for making contract additions to the repository.

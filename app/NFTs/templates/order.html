@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <title>Processing Order</title>
+</head>
+<body>
+    {% load mathfilters %}
+    {% include 'navbar.html' with ada=lovelace|div:1000000 addr=address collat_check=data %}
+    <div class='text-center mt-2'>
+        <p>Please wait a block for your order to be processed. Hit the refresh button to get new block and balance.</p>
+        <p>If you are expecting a transaction to be processed and nothing happens then please check the webserver terminal for any errors caused by the node.</p>
+        <p>A smart contract transaction will not occur if a wallet does not have proper collateral.</p>
+        <p>Current: {{ block }}</p>
+        <a href="order" class="btn btn-outline-dark mb-2">Refresh</a>
+        <div class="container-fluid" style="border:1px solid black;">
+            <p class="mt-1">List of available currency inside the wallet.</p>
+            {% for key, values in balance.items %}
+                <p>{{key}}:{{values}}</p>
+            {% endfor %}
+        </div>
+        {% if data %}
+            <p class="mt-1">Wallet has the collateral UTxO. It should be equal 17000000 lovelaces.</p>
+            <h1><i class="bi bi-check-circle text-success"></i></h1>
+            <div class="container-fluid">
+                {% for key, values in data.items %}
+                    {% for token, attr in values.items %}
+                        <p>TX:{{key}} Value:{{attr}}</p>
+                    {% endfor %}    
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="mt-1">Wallet does not have a collateral UTxO! Please go to the wallet screen and create collateral.</p>
+            <h1><i class="bi bi-exclamation-octagon text-danger"></i></h1>
+            <a href="wallet" class="btn btn-lg btn-info">Wallet</a>
+        {% endif %}
+    </div>
+</body>
+</html>

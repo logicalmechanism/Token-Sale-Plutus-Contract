@@ -109,7 +109,7 @@ typedValidator ts = Scripts.mkTypedValidator @Typed
 validator :: Plutus.Validator
 validator = Scripts.validatorScript (typedValidator ts)
     where ts = TokenSaleParams { tsSellerAddress  = pubKeyHashAddress "PUBLIC_KEY_HASH_ADDRESS" -- put in the seller address here
-                               , tsCost           = 1000000                               -- Price for the token in lovelace
+                               , tsCost           = INTEGER_PRICE_HERE                          -- Price for the token in lovelace
                                }
 
 
