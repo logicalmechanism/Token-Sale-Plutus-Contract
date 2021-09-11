@@ -3,7 +3,7 @@ from sys import exit
 from os.path import isdir, isfile
 
 
-def end(tmp, wallet_skey_path, wallet_addr, script_addr, cost, datum_hash, plutus_script, seller_addr, token_name, collateral):
+def end(tmp, wallet_skey_path, wallet_addr, script_addr, cost, datum_hash, plutus_script, seller_addr, policy_id, token_name, collateral):
     """
     Retrieves a token from a smart contract.
     """
@@ -39,18 +39,18 @@ def end(tmp, wallet_skey_path, wallet_addr, script_addr, cost, datum_hash, plutu
                 break
         # print(contract_utxo_in)
         _, final_tip, block = trx.tip(tmp)
-        print('BLOCK:', block)
+        print('\nThe current block:', block)
         utxo_out = trx.asset_change(tmp, script_currencies, wallet_addr, token_name, False)
         utxo_out += trx.asset_change(tmp, currencies, wallet_addr) # Accounts for token change
         utxo_out += ['--tx-out', seller_addr+'+'+str(cost)]
+        print('\nUTxO: ', utxo_out)
         additional_data = [
             '--tx-out-datum-hash', datum_hash,
-            '--tx-in-datum-value', '"{}"'.format(TOKEN_NAME),
+            '--tx-in-datum-value', '"{}"'.format(trx.get_token_identifier(policy_id, token_name)),
             '--tx-in-redeemer-value', '""',
             '--tx-in-script-file', plutus_script
         ]
         print('\nCheck DATUM: ', additional_data)
-        print('\n', utxo_out)
         trx.build(tmp, wallet_addr, final_tip, contract_utxo_in, utxo_col, utxo_out, additional_data)
 
         # Make User Confirm Data is Correct
@@ -76,7 +76,8 @@ def end(tmp, wallet_skey_path, wallet_addr, script_addr, cost, datum_hash, plutu
         trx.sign(tmp, signers)
         trx.submit(tmp)
     else:
-        print("SPLIT UP UTXO")
+        print("The wallet did not account for collateral.")
+        exit(0)
 
 if __name__ == "__main__":
     # Buyer info
@@ -93,7 +94,7 @@ if __name__ == "__main__":
     # Script info
     PLUTUS_SCRIPT_PATH = "/path/to/compiled/contract/plutus.script"
     # SCRIPT_ADDR   = trx.get_script_address(PLUTUS_SCRIPT_PATH)
-    SCRIPT_ADDR   = ""
+    SCRIPT_ADDR   = "SCRIPT_ADDRESS_HERE"
 
     # tmp folder for transactions
     TMP = "/path/to/tmp/folder/"
@@ -110,4 +111,4 @@ if __name__ == "__main__":
     DATUM_HASH  = trx.get_hash_value('"{}"'.format(FINGERPRINT)).replace('\n', '')
     print('DATUM Hash: ', DATUM_HASH)
     
-    end(TMP, BUYER_SKEY_PATH, BUYER_ADDR, SCRIPT_ADDR, COST, DATUM_HASH, PLUTUS_SCRIPT_PATH, SELLER_ADDR, TOKEN_NAME, COLLATERAL)
+    end(TMP, BUYER_SKEY_PATH, BUYER_ADDR, SCRIPT_ADDR, COST, DATUM_HASH, PLUTUS_SCRIPT_PATH, SELLER_ADDR, POLICY_ID, TOKEN_NAME, COLLATERAL)

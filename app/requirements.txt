@@ -1,0 +1,53 @@
+APScheduler @ file:///tmp/build/80754af9/apscheduler_1613146917006/work
+arrow==1.0.3
+arweave-python-client==1.0.14
+asgiref @ file:///tmp/build/80754af9/asgiref_1617740417847/work
+brotlipy==0.7.0
+certifi==2021.5.30
+cffi @ file:///tmp/build/80754af9/cffi_1613246951236/work
+chardet @ file:///tmp/build/80754af9/chardet_1607706775000/work
+cryptography @ file:///tmp/build/80754af9/cryptography_1616767007030/work
+cycler==0.10.0
+Django @ file:///tmp/build/80754af9/django_1617740316746/work
+django-mathfilters==1.0.0
+ecdsa==0.14.1
+gmpy2==2.0.8
+idna @ file:///home/linux1/recipes/ci/idna_1610986105248/work
+kiwisolver @ file:///tmp/build/80754af9/kiwisolver_1612281846643/work
+matplotlib @ file:///tmp/build/80754af9/matplotlib-suite_1613407855456/work
+mkl-fft==1.3.0
+mkl-random @ file:///tmp/build/80754af9/mkl_random_1618853971975/work
+mkl-service==2.3.0
+mpmath==1.2.1
+networkx @ file:///tmp/build/80754af9/networkx_1625827426685/work
+numpy==1.20.3
+olefile==0.46
+opencv-python==4.5.3.56
+pandas==1.2.4
+Pillow @ file:///tmp/build/80754af9/pillow_1617385572585/work
+psutil==5.8.0
+psycopg2 @ file:///tmp/build/80754af9/psycopg2_1612298595717/work
+pyasn1==0.4.8
+pycparser @ file:///tmp/build/80754af9/pycparser_1594388511720/work
+pycryptodome==3.10.1
+PyNaCl==1.4.0
+pyOpenSSL @ file:///tmp/build/80754af9/pyopenssl_1608057966937/work
+pyparsing @ file:///home/linux1/recipes/ci/pyparsing_1610983426697/work
+PySocks @ file:///tmp/build/80754af9/pysocks_1605305812635/work
+python-dateutil @ file:///home/ktietz/src/ci/python-dateutil_1611928101742/work
+python-jose==3.2.0
+pytz @ file:///tmp/build/80754af9/pytz_1612215392582/work
+pyzbar==0.1.8
+qrcode==7.2
+qrtools==0.0.2
+requests @ file:///tmp/build/80754af9/requests_1608241421344/work
+rsa==4.7.2
+schedule==1.1.0
+scipy @ file:///tmp/build/80754af9/scipy_1618855955483/work
+sip==4.19.13
+six @ file:///tmp/build/80754af9/six_1605205306277/work
+sqlparse @ file:///tmp/build/80754af9/sqlparse_1602184451250/work
+sympy @ file:///tmp/build/80754af9/sympy_1618255318822/work
+tornado @ file:///tmp/build/80754af9/tornado_1606942317143/work
+tzlocal @ file:///tmp/build/80754af9/tzlocal_1613145291135/work
+urllib3 @ file:///tmp/build/80754af9/urllib3_1615837158687/work
