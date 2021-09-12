@@ -13,7 +13,7 @@ import json
 
 ###############################################################################
 # Mainnet is True | testnet is False
-MAINNET    = False
+MAINNET    = True
 # 17 ADA collateral
 COLLATERAL = 17000000
 ###############################################################################
@@ -113,7 +113,9 @@ def create_collateral(request):
         print('\nNO payment.vkey inside wallet folder.\n')
     else:
         wallet_address = db.get_address_from_vkey(vkey_path, MAINNET)
-        split_for_collateral(os.getcwd() + '/tmp/', skey_path, wallet_address, COLLATERAL, MAINNET)
+        check_status = split_for_collateral(os.getcwd() + '/tmp/', skey_path, wallet_address, COLLATERAL, MAINNET)
+        if check_status is False:
+            return redirect('error')
     return redirect('order')
 
 
@@ -143,7 +145,9 @@ def starting_a_contract(request):
         else:
             plutus_script = os.path.dirname(os.getcwd()) + '/example_token_sale_addition/' + contract + '/token-sale/token_sale.plutus'
         script_addr = trx.get_script_address(plutus_script, MAINNET)
-        start_contract(tmp, skey_path, wallet_addr, script_addr, datum_hash, policy_id, token_name, COLLATERAL, MAINNET)
+        check_status = start_contract(tmp, skey_path, wallet_addr, script_addr, datum_hash, policy_id, token_name, COLLATERAL, MAINNET)
+        if check_status is False:
+            return redirect('error')
     
     # Royalty Sale
     if royaltySale == 'True':
@@ -152,7 +156,9 @@ def starting_a_contract(request):
         else:
             plutus_script = os.path.dirname(os.getcwd()) + '/example_royalty_sale_addition/' + contract + '/token-sale-with-royalty/token_sale_with_royalty.plutus'
         script_addr = trx.get_script_address(plutus_script, MAINNET)
-        start_royalty(tmp, skey_path, wallet_addr, script_addr, datum_hash, policy_id, token_name, COLLATERAL, MAINNET)
+        check_status = start_royalty(tmp, skey_path, wallet_addr, script_addr, datum_hash, policy_id, token_name, COLLATERAL, MAINNET)
+        if check_status is False:
+            return redirect('error')
     
     return redirect('order')
 
@@ -258,7 +264,9 @@ def buy_from_smart_contract(request):
             plutus_script  = os.path.dirname(os.getcwd()) + '/token_sale_contracts/{}_{}/token-sale/token_sale.plutus'.format(seller_hash, price)
         else:
             plutus_script  = os.path.dirname(os.getcwd()) + '/example_token_sale_addition/{}_{}/token-sale/token_sale.plutus'.format(seller_hash, price)
-        buy_token(os.getcwd() + '/tmp/', skey_path, wallet_addr, script_addr, price, datum_hash, fingerprint, plutus_script, seller_addr, policy_id, token_name, COLLATERAL, MAINNET)
+        check_status = buy_token(os.getcwd() + '/tmp/', skey_path, wallet_addr, script_addr, price, datum_hash, fingerprint, plutus_script, seller_addr, policy_id, token_name, COLLATERAL, MAINNET)
+        if check_status is False:
+            return redirect('error')
     else:
         if MAINNET:
             with open(os.path.dirname(os.getcwd()) + '/royalty_sale_contracts/{}_{}/royalty.amt'.format(seller_hash, price), "r") as read_content: royalty = read_content.read().splitlines()[0]
@@ -266,7 +274,9 @@ def buy_from_smart_contract(request):
         else:
             with open(os.path.dirname(os.getcwd()) + '/example_royalty_sale_addition/{}_{}/royalty.amt'.format(seller_hash, price), "r") as read_content: royalty = read_content.read().splitlines()[0]
             plutus_script  = os.path.dirname(os.getcwd()) + '/example_royalty_sale_addition/{}_{}/token-sale-with-royalty/token_sale_with_royalty.plutus'.format(seller_hash, price)
-        buy_token_with_royalty(os.getcwd() + '/tmp/', skey_path, wallet_addr, script_addr, price, price // int(royalty), datum_hash, plutus_script, seller_addr, artist_addr, policy_id, token_name, COLLATERAL, MAINNET)
+        check_status = buy_token_with_royalty(os.getcwd() + '/tmp/', skey_path, wallet_addr, script_addr, price, price // int(royalty), datum_hash, plutus_script, seller_addr, artist_addr, policy_id, token_name, COLLATERAL, MAINNET)
+        if check_status is False:
+            return redirect('error')
     return redirect('order')
 
 

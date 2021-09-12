@@ -29,9 +29,9 @@ cardano-cli address key-hash --payment-verification-key STRING    # Payment veri
 
 The contract is very simple. To spend the UTxo of the token inside the smart contract. The buyer will attach the correct Datum and will create two UTxOs. One UTxo will go directly to the seller with the predefined lovelace amount and the other UTxo will be the token being sent to the buyer's address. The datum value is known before hand because it follows the standard of hashing the hash of the concatentation of the policy id and token name. Please refer to scripts/transaction.py file, 
 
-```py
-FINGERPRINT= get_token_identifier(policy_id, token_name)
-DATUM_HASH = get_hash_value('"{}"'.format(FINGERPRINT)).replace('\n', '')
+```python
+FINGERPRINT = get_token_identifier(policy_id, token_name)
+DATUM_HASH  = get_hash_value('"{}"'.format(FINGERPRINT)).replace('\n', '')
 ```
 
 NOTE: Tokens inside these smart contracts can only be removed with a succesful validation i.e. the token must be purchased. If a seller wants to remove their token from a smart contract then they must purchase the token from themselves.

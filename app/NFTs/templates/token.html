@@ -1,5 +1,14 @@
-<div class="card ms-1 me-1" style="width: 18rem; border:1px solid #3d3d4d;">
-    <img src="{{ image }}" class="card-img-top" alt="ipfs not loading image">
+<div class="card m-1" style="width: 18rem; border:1px solid #3d3d4d;">
+    {% if buying %}
+        <button type='button' data-bs-toggle="modal" data-bs-target="#buyTokenModal{{forloop.counter}}">
+            <img src="{{ image }}" class="card-img-top" alt="ipfs not loading image">
+        </button>
+    {% endif %}
+    {% if selling %}
+        <button type='button' class='btn' data-bs-toggle="modal" data-bs-target="#sellTokenModal{{forloop.counter}}">
+            <img src="{{ image }}" class="card-img-top" alt="ipfs not loading image">
+        </button>
+    {% endif %}
     <div class="card-body text-center">
         <h5 class="card-title">{{ tkn }}</h5>
         <p class="card-text">{{ pid }}</p>

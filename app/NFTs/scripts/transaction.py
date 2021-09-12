@@ -24,14 +24,12 @@ def get_key_hash(vkey_path):
         vkey_path
     ]
     p = subprocess.Popen(func, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
-    # print('Hash: ', p)
     return p
 
 
 def get_datum_hash(policy_id, token_name):
     fingerprint = get_token_identifier(policy_id, token_name) # Not real fingerprint but works
     datum_hash  = get_hash_value('"{}"'.format(fingerprint)).replace('\n', '')
-    # print('DATUM Hash: ', datum_hash)
     return datum_hash
 
 
@@ -59,7 +57,6 @@ def get_address_from_vkey(vkey_path, flag=True):
     ]
     func += whichnet(flag)
     p = subprocess.Popen(func, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
-    # print('Address: ', p)
     return p
 
 
@@ -70,8 +67,6 @@ def get_token_identifier(policy_id, token_name):
     hex_name = base64.b16encode(bytes(str(token_name).encode('utf-8'))).lower()
     b_policy_id = bytes(str(policy_id).encode('utf-8'))
     concat = b_policy_id+hex_name
-    # print('Hex Name: ', hex_name)
-    # print('Policy ID: ', b_policy_id)
     h = hashlib.blake2b(digest_size=20)
     h.update(concat)
     return h.hexdigest()
@@ -92,7 +87,6 @@ def estimate_trx_fee(tmp, flag=True):
     ]
     func += whichnet(flag)
     p = subprocess.Popen(func, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
-    # print('Hash: ', p)
 
 
 def get_policy_id(file):
@@ -104,8 +98,6 @@ def get_policy_id(file):
         file
     ]
     p = subprocess.Popen(func, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
-    # print('Value:', file)
-    # print('Hash: ', p)
     return p
 
 
@@ -118,8 +110,6 @@ def get_hash_value(value):
         value
     ]
     p = subprocess.Popen(func, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
-    # print('Value:', value)
-    # print('Hash: ', p)
     return p
 
 
@@ -133,17 +123,6 @@ def get_script_address(script, flag=True):
     ]
     func += whichnet(flag)
     p = subprocess.Popen(func, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
-    # print('ADDRESS: ', p)
-    # func = [
-    #     'cardano-cli',
-    #     'query',
-    #     'utxo',
-    #     '--address',
-    #     p,
-    #     '--testnet-magic', '1097911063',
-    # ]
-    # a = subprocess.Popen(func, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
-    # print(a)
     return p
 
 
@@ -173,7 +152,7 @@ def calculate_min_value(tmp, token_string):
     p = subprocess.Popen(func, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
     # Over assume minimum cost to send assets if protocol can not calculate required ada.
     try:
-        p.split(' ')[1].replace('\n', '')
+        p = p.replace('\n','').split(' ')[1]
     except IndexError:
         p = 2000000
     return p
@@ -188,8 +167,6 @@ def asset_utxo_string(wallet_currency, exclude=[], ex_flag=True):
         for asset in wallet_currency[token]:
             # print(token, asset)
             if len(exclude) != 0:
-                # print('exclude', exclude)
-                # print('asset token', token, asset)
                 # Exclusion flag
                 if ex_flag is True:
                     if asset not in exclude and token not in exclude:
@@ -233,6 +210,8 @@ def version():
     ]
     p = subprocess.Popen(func)
     p.communicate()
+    exit_code = p.wait()
+    print(exit_code)
 
 
 def delete_contents(tmp):
@@ -358,7 +337,6 @@ def tip(tmp, flag=True):
             data = json.load(read_content)
     except FileNotFoundError:
         return 0, 0, 0
-    # print(data)
     return int(data['slot']), int(data['slot']) + delta, int(data['block'])
 
 
@@ -388,6 +366,8 @@ def build(tmp, change_addr, final_tip, utxo_in, utxo_col, utxo_out, additional_d
     func += whichnet(flag)
     p = subprocess.Popen(func)
     p.communicate()
+    exit_code = p.wait()
+    return exit_code
 
 
 def sign(tmp, signers, flag=True):

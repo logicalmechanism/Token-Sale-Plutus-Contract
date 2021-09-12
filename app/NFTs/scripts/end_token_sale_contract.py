@@ -1,5 +1,4 @@
 import NFTs.scripts.transaction as trx
-from sys import exit
 from os.path import isdir, isfile
 
 
@@ -14,7 +13,7 @@ def buy_token(tmp, wallet_skey_path, wallet_addr, script_addr, cost, datum_hash,
     # Ensure the tmp folder exists
     if isdir(tmp) is False:
         print('The directory:', tmp, 'does not exists')
-        exit(0)
+        return False
 
     # Clean the folder
     trx.delete_contents(tmp)
@@ -23,7 +22,7 @@ def buy_token(tmp, wallet_skey_path, wallet_addr, script_addr, cost, datum_hash,
     # Check if wallet address is correct
     if isfile(tmp+'utxo.json') is False:
         print('The file:', tmp+'utxo.json', 'does not exists')
-        exit(0)
+        return False
     utxo_in, utxo_col, currencies, collat_flag, _ = trx.txin(tmp, 'utxo.json', collateral)
     
     # Check for collateral
@@ -31,8 +30,9 @@ def buy_token(tmp, wallet_skey_path, wallet_addr, script_addr, cost, datum_hash,
         trx.utxo(script_addr, tmp, 'utxo_script.json', flag)
         if isfile(tmp+'utxo_script.json') is False:
             print('The file:', tmp+'utxo_script.json', 'does not exists')
-            exit(0)
+            return False
         _, _, script_currencies, _, data_list = trx.txin(tmp, 'utxo_script.json', collateral, True, datum_hash)
+        
         # print(script_currencies)
         contract_utxo_in = utxo_in
         for key in data_list:
@@ -55,13 +55,15 @@ def buy_token(tmp, wallet_skey_path, wallet_addr, script_addr, cost, datum_hash,
         ]
         # print('\nCheck DATUM: ', additional_data)
         # print('\n', utxo_out)
-        trx.build(tmp, wallet_addr, final_tip, contract_utxo_in, utxo_col, utxo_out, additional_data, flag)
-
+        check_status = trx.build(tmp, wallet_addr, final_tip, contract_utxo_in, utxo_col, utxo_out, additional_data, flag)
+        if check_status != 0:
+            print('The transaction build has failed.')
+            return False
         
         # Ensure the tmp folder exists
         if isfile(wallet_skey_path) is False:
             print('The file:', wallet_skey_path, 'does not exists')
-            exit(0)
+            return False
         
         signers = [
             '--signing-key-file',
@@ -70,5 +72,7 @@ def buy_token(tmp, wallet_skey_path, wallet_addr, script_addr, cost, datum_hash,
         trx.sign(tmp, signers, flag)
         trx.submit(tmp, flag)
         print('\nEND OF BUYING FROM CONTRACT\n')
+        return True
     else:
-        print("SPLIT UP UTXO")
+        print("The wallet did not account for collateral.")
+        return False

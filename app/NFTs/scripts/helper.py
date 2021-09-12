@@ -3,7 +3,12 @@ import subprocess
 import base64
 import requests
 
+
 def blockfrost_api_key():
+    """
+    Retrieve the blockfrost API key from the api.key folder.
+    Visit https://blockfrost.io/ to get an API key. They are free.
+    """
     path = os.getcwd() + '/NFTs/blockfrost/api.key'
     # print(os.path.isfile(path))
     try:
@@ -16,9 +21,18 @@ def blockfrost_api_key():
 
 
 def concat_pid_and_tkn(pid, tkn):
+    """
+    Returns the concatentation of the policy id and the hex encoded token name.
+    """
     return pid + token_name_to_hex_name(tkn)
 
+
 def get_onchain_metadata(concat_of_policyID_and_tokenName):
+    """
+    Return the onchain metadata, the data used in the minting transaction, 
+    using the blockfrost api. If the metadata can not be found then it will
+    return a string that indicates there is no metadata available.
+    """
     response = requests.get(
         'https://cardano-mainnet.blockfrost.io/api/v0/assets/{}'.format(concat_of_policyID_and_tokenName),
         headers={'project_id': blockfrost_api_key(),}
@@ -30,26 +44,34 @@ def get_onchain_metadata(concat_of_policyID_and_tokenName):
         metadata = 'No Metadata'
     return metadata
 
+
 def get_ipfs_image_from_metadata(concat_of_policyID_and_tokenName):
-    # print(concat_of_policyID_and_tokenName)
+    """
+    Using the onchain metadata search for the token's image.
+    """
     metadata = get_onchain_metadata(concat_of_policyID_and_tokenName)
     try:
         image = metadata['image']
-        # print(image)
     except (KeyError, TypeError):
-        # print('\nNo IPFS can be found.')
         image=''
     return image
 
 
 def get_image(pid, token):
-    # print(pid + token_name_to_hex_name(token))
+    """
+    Returns the IPFS url for the image inside a token's metadata.
+    """
+    # print(pid + token_name_to_hex_name(token), token)
     image = get_ipfs_image_from_metadata(pid+ token_name_to_hex_name(token))
     image = image.replace('ipfs://', 'https://ipfs.io/ipfs/')
+    # print(image)
     return image
 
 
 def token_name_to_hex_name(token_name):
+    """
+    Returns the hex encoded, base 16, representation of the token name. This is
+    used for the blockfrost api and token identification.
+    """
     hex_name = base64.b16encode(bytes(str(token_name).encode('utf-8'))).lower().decode('utf-8')
-    # print(hex_name)
     return hex_name

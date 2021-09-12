@@ -1,5 +1,4 @@
 import NFTs.scripts.transaction as trx
-from sys import exit
 from os.path import isdir, isfile
 
 # May need to type this into terminal before starting
@@ -14,7 +13,7 @@ def start_contract(tmp, wallet_skey_path, wallet_addr, script_addr, datum_hash, 
     # Ensure the tmp folder exists
     if isdir(tmp) is False:
         print('The directory:', tmp, 'does not exist.')
-        exit(0)
+        return False
     
     # Delete contents from tmp; starts fresh
     trx.delete_contents(tmp)
@@ -24,7 +23,7 @@ def start_contract(tmp, wallet_skey_path, wallet_addr, script_addr, datum_hash, 
     # Check if wallet address is correct
     if isfile(tmp+'utxo.json') is False:
         print('The file:', tmp+'utxo.json', 'does not exist.')
-        exit(0)
+        return False
     utxo_in, utxo_col, currencies, collat_flag, _ = trx.txin(tmp, 'utxo.json', collateral)
     
     # Check if collateral exists
@@ -40,12 +39,15 @@ def start_contract(tmp, wallet_skey_path, wallet_addr, script_addr, datum_hash, 
             '--tx-out-datum-hash', datum_hash # This has to be the hash of the fingerprint of the token
         ]
         # print('\nCheck Datum: ', additional_data)
-        trx.build(tmp, wallet_addr, final_tip, utxo_in, utxo_col, utxo_out, additional_data, flag)
+        check_status = trx.build(tmp, wallet_addr, final_tip, utxo_in, utxo_col, utxo_out, additional_data, flag)
+        if check_status != 0:
+            print('The transaction build has failed.')
+            return False
         
         # Ensure the tmp folder exists
         if isfile(wallet_skey_path) is False:
             print('The file:', wallet_skey_path, 'does not exist.')
-            exit(0)
+            return False
         
         # This makes it live
         signers = [
@@ -55,7 +57,8 @@ def start_contract(tmp, wallet_skey_path, wallet_addr, script_addr, datum_hash, 
         trx.sign(tmp, signers, flag)
         trx.submit(tmp, flag)
         print('\nEND OF STARTING TOKEN SALE CONTRACT\n')
+        return True
 
     else:
         print("The wallet did not account for collateral.")
-        exit(0)
+        return False
