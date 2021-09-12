@@ -12,11 +12,11 @@
 <body>
     {% load mathfilters %}
     {% include 'navbar.html' with ada=lovelace|div:1000000 addr=address collat_check=collat %}
-    <div class="mb-2 mt-2">
-        <form action='/index' class="d-flex">
+    <div class="mb-2 mt-2 ">
+        <form action='/index' class="d-flex w-75 mx-auto">
             <input class="form-control me-2" type="search" placeholder="Search For A Token Name, policy ID, address, etc" aria-label="Search" name="search" value=''>
             <button class="btn btn-outline-primary" type="submit">Search</button>
-          </form>
+        </form>
     </div>
     <div class="row">
         {% for entry in entries %}

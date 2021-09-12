@@ -13,9 +13,9 @@
     {% load mathfilters %}
     {% include 'navbar.html' with ada=lovelace|div:1000000 addr=address collat_check=collat %}
     <div class="mb-2 mt-2">
-        <div class="d-flex">
+        <div class="d-flex mx-2">
             <a class="btn btn-outline-primary me-5 mx-auto" href="split">Create Collateral</a>
-            <form action='/wallet' class="d-flex mx-auto">
+            <form action='/wallet' class="d-flex mx-auto w-75">
                 <input class="form-control me-2" type="search" placeholder="Search For A Token or Policy" aria-label="Search" name="search" value=''>
                 <button class="btn btn-outline-primary" type="submit">Search</button>
             </form>

@@ -26,25 +26,66 @@
             <p class="card-text">{{ amount }} {{ tkn }}</p>
         {% endif %}
         {% if buying %}
-        <form action='/buy' class="" method="POST">
-            {% csrf_token %}
-            <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="scriptAddress" value='{{ scriptAddress }}'>
-            <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="sellerAddress" value='{{ sellerAddress }}'>
-            <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="sellerHash"    value='{{ sellerHash }}'>
-            <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="artistAddress" value='{{ artistAddress }}'>
-            <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="price"         value='{{ price }}'>
-            <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="policyID"      value='{{ pid }}'>
-            <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="tokenName"     value='{{ tkn }}'>
-            <button class="btn btn-outline-success" type="submit">Buy</button>
-        </form>
+            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#buyTokenModal{{forloop.counter}}">
+                Buy
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="buyTokenModal{{forloop.counter}}" tabindex="-1" aria-labelledby="buyTokenModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header mx-auto">
+                            <h5 class="modal-title" id="buyTokenModalLabel">Are you sure you want to buy this token?</h5>
+                        </div>
+                        <div class="modal-body">
+                            <img src="{{ image }}" class="" alt="ipfs not loading image">
+                            <p class="my-2">{{ pid }}.{{ tkn }}</p>
+                            <form action='/buy' class="" method="POST">
+                                {% csrf_token %}
+                                <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="scriptAddress" value='{{ scriptAddress }}'>
+                                <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="sellerAddress" value='{{ sellerAddress }}'>
+                                <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="sellerHash"    value='{{ sellerHash }}'>
+                                <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="artistAddress" value='{{ artistAddress }}'>
+                                <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="price"         value='{{ price }}'>
+                                <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="policyID"      value='{{ pid }}'>
+                                <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="tokenName"     value='{{ tkn }}'>
+                                <button class="btn btn-outline-success my-2" type="submit">Confirm Purchase</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         {% endif %}
         {% if selling %}
-            <form action='/sell' class="" method="POST">
-                {% csrf_token %}
-                <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="policyID"  value='{{ pid }}'>
-                <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="tokenName" value='{{ tkn }}'>
-                <button class="btn btn-outline-success" type="submit">Sell</button>
-            </form>
+            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#sellTokenModal{{forloop.counter}}">
+                Sell
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="sellTokenModal{{forloop.counter}}" tabindex="-1" aria-labelledby="sellTokenModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header mx-auto">
+                            <h5 class="modal-title" id="sellTokenModalLabel">Are you sure you want to sell this token?</h5>
+                        </div>
+                        <div class="modal-body">
+                            <img src="{{ image }}" class="" alt="ipfs not loading image">
+                            <p class="my-2">{{ pid }}.{{ tkn }}</p>
+                            <form action='/sell' class="" method="POST">
+                                {% csrf_token %}
+                                <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="policyID"  value='{{ pid }}'>
+                                <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="tokenName" value='{{ tkn }}'>
+                                <button class="btn btn-outline-success" type="submit">Sell</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         {% endif %}
     </div>
   </div>
+  
