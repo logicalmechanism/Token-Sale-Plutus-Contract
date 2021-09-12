@@ -1,12 +1,12 @@
 <div class="card m-1" style="width: 18rem; border:1px solid #3d3d4d;">
     {% if buying %}
         <button type='button' data-bs-toggle="modal" data-bs-target="#buyTokenModal{{forloop.counter}}">
-            <img src="{{ image }}" class="card-img-top" alt="ipfs not loading image">
+            <img src="{{ image }}" class="card-img-top" alt="ipfs not loading image" style="max-height:400px;max-width:400px;">
         </button>
     {% endif %}
     {% if selling %}
         <button type='button' class='btn' data-bs-toggle="modal" data-bs-target="#sellTokenModal{{forloop.counter}}">
-            <img src="{{ image }}" class="card-img-top" alt="ipfs not loading image">
+            <img src="{{ image }}" class="card-img-top" alt="ipfs not loading image" style="max-height:400px;max-width:400px;">
         </button>
     {% endif %}
     <div class="card-body text-center">
@@ -35,18 +35,18 @@
             <p class="card-text">{{ amount }} {{ tkn }}</p>
         {% endif %}
         {% if buying %}
-            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#buyTokenModal{{forloop.counter}}">
+            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#buyTokenModal{{forloop.parentloop.counter}}_{{forloop.counter}}">
                 Buy
             </button>
             <!-- Modal -->
-            <div class="modal fade" id="buyTokenModal{{forloop.counter}}" tabindex="-1" aria-labelledby="buyTokenModalLabel" aria-hidden="true">
+            <div class="modal fade" id="buyTokenModal{{forloop.parentloop.counter}}_{{forloop.counter}}" tabindex="-1" aria-labelledby="buyTokenModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header mx-auto">
                             <h5 class="modal-title" id="buyTokenModalLabel">Are you sure you want to buy this token?</h5>
                         </div>
                         <div class="modal-body">
-                            <img src="{{ image }}" class="" alt="ipfs not loading image">
+                            <img src="{{ image }}" class="" alt="ipfs not loading image" style="max-height:400px;max-width:400px;">
                             <p class="my-2">{{ pid }}.{{ tkn }}</p>
                             <form action='/buy' class="" method="POST">
                                 {% csrf_token %}
@@ -68,18 +68,18 @@
             </div>
         {% endif %}
         {% if selling %}
-            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#sellTokenModal{{forloop.counter}}">
+            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#sellTokenModal{{forloop.parentloop.counter}}_{{forloop.counter}}">
                 Sell
             </button>
             <!-- Modal -->
-            <div class="modal fade" id="sellTokenModal{{forloop.counter}}" tabindex="-1" aria-labelledby="sellTokenModalLabel" aria-hidden="true">
+            <div class="modal fade" id="sellTokenModal{{forloop.parentloop.counter}}_{{forloop.counter}}" tabindex="-1" aria-labelledby="sellTokenModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header mx-auto">
                             <h5 class="modal-title" id="sellTokenModalLabel">Are you sure you want to sell this token?</h5>
                         </div>
                         <div class="modal-body">
-                            <img src="{{ image }}" class="" alt="ipfs not loading image">
+                            <img src="{{ image }}" class="" alt="ipfs not loading image" style="max-height:400px;max-width:400px;">
                             <p class="my-2">{{ pid }}.{{ tkn }}</p>
                             <form action='/sell' class="" method="POST">
                                 {% csrf_token %}

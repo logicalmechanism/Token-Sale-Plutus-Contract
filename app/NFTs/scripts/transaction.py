@@ -13,7 +13,7 @@ import subprocess
 import json
 import hashlib
 import base64
-
+import os
 
 def get_key_hash(vkey_path):
     func = [
@@ -154,7 +154,7 @@ def calculate_min_value(tmp, token_string):
     try:
         p = p.replace('\n','').split(' ')[1]
     except IndexError:
-        p = 2000000
+        p = 6000000
     return p
 
 
@@ -235,6 +235,17 @@ def protocol(tmp, flag=True):
     func += whichnet(flag)
     p = subprocess.Popen(func)
     p.communicate()
+    p.wait()
+
+    # force minUTxOValue to exist
+    filename = tmp+'protocol.json'
+    with open(filename, 'r') as f:
+        data = json.load(f)
+        data['minUTxOValue'] = 1200000 # <--- add `id` value.
+
+    os.remove(filename)
+    with open(filename, 'w') as f:
+        json.dump(data, f, indent=4)
 
 
 def utxo(token_wallet, tmp, file_name, flag=True):

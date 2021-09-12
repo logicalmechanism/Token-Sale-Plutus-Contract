@@ -182,10 +182,11 @@ def sell_to_smart_contract(request):
     # Get meata from token
     concat_pid_tkn = help.concat_pid_and_tkn(policy_id, token_name)
     metadata       = help.get_onchain_metadata(concat_pid_tkn)
-
+    # print(metadata)
     # This metadata must contain artist pubkey hash
     try:
-        artist_hash = metadata['artist-hash']
+        artist_hash = metadata['artist_hash']
+        # print('artist_hash', artist_hash)
     except (KeyError, TypeError):
         artist_hash = None
         # This is for testing purposes
@@ -318,7 +319,6 @@ def wallet(request):
                     }
                 else:
                     del tokens[pid][token]
-    
     context = {
         'lovelace': lovelace, 
         'tokens'  : tokens, 
