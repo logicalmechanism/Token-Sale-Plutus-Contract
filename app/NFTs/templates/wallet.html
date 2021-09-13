@@ -23,7 +23,6 @@
     </div>
     <div class="row">
         {% for key, values in tokens.items %}
-            {{forloop.counter}}
             {% for token, attr in values.items %}
                 <div class="col">
                     {% include 'token.html' with pid=key tkn=token image=attr.image selling='true'%}
