@@ -18,20 +18,23 @@
         {% endif %}
         {% if sellerAddress %}
             <small class="card-text">Seller Address:</small>
-            <p class="card-text">{{ sellerAddress }}</p>
+            <small class="card-text">{{ sellerAddress }}</small>
         {% endif %}
         {% if sellerHash %}
             <small class="card-text">Seller Hash:</small>
-            <p class="card-text">{{ sellerHash }}</p>
+            <small class="card-text">{{ sellerHash }}</small>
         {% endif %}
         {% if artistAddress %}
             <small class="card-text">Artist Address:</small>
-            <p class="card-text">{{ artistAddress }}</p>
+            <small class="card-text">{{ artistAddress }}</small>
         {% endif %}
         {% if price %}
+            <br>
+            <small class="card-text">Price:</small>
             <p class="card-text">{{ price }} ADA</p>
-            {% endif %}
+        {% endif %}
         {% if amount %}
+            <small class="card-text">Quantity:</small>
             <p class="card-text">{{ amount }} {{ tkn }}</p>
         {% endif %}
         {% if buying %}
