@@ -1,11 +1,11 @@
 <div class="card m-1" style="width: 18rem; border:1px solid #3d3d4d;">
     {% if buying %}
-        <button type='button' data-bs-toggle="modal" data-bs-target="#buyTokenModal{{forloop.counter}}">
+        <button type='button' data-bs-toggle="modal" data-bs-target="#buyTokenModal{{forloop.parentloop.counter}}_{{forloop.counter}}">
             <img src="{{ image }}" class="card-img-top" alt="ipfs not loading image" style="max-height:400px;max-width:400px;">
         </button>
     {% endif %}
     {% if selling %}
-        <button type='button' class='btn' data-bs-toggle="modal" data-bs-target="#sellTokenModal{{forloop.counter}}">
+        <button type='button' class='btn' data-bs-toggle="modal" data-bs-target="#sellTokenModal{{forloop.parentloop.counter}}_{{forloop.counter}}">
             <img src="{{ image }}" class="card-img-top" alt="ipfs not loading image" style="max-height:400px;max-width:400px;">
         </button>
     {% endif %}
@@ -57,7 +57,7 @@
                                 <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="price"         value='{{ price }}'>
                                 <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="policyID"      value='{{ pid }}'>
                                 <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="tokenName"     value='{{ tkn }}'>
-                                <button class="btn btn-outline-success my-2" type="submit">Confirm Purchase</button>
+                                <button class="btn btn-outline-success my-2" type="submit">Confirm Buy</button>
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -85,7 +85,7 @@
                                 {% csrf_token %}
                                 <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="policyID"  value='{{ pid }}'>
                                 <input class="form-control" type="hidden" placeholder="Search For A Token Name or policy ID" name="tokenName" value='{{ tkn }}'>
-                                <button class="btn btn-outline-success" type="submit">Sell</button>
+                                <button class="btn btn-outline-success" type="submit">Confirm Sell</button>
                             </form>
                         </div>
                         <div class="modal-footer">
