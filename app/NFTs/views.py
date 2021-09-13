@@ -26,6 +26,14 @@ def error_page(request):
     return render(request, 'error.html', {})
 
 
+def get_script_currency(script_address):
+    """
+    Get the currency from a script address
+    """
+    db.get_script_balance(script_address, MAINNET)
+    currency = db.txin()
+    return currency
+
 def get_wallet_currency():
     """
     Get the currency wallet currency, i.e. all the lovelace and tokens from 
@@ -351,6 +359,10 @@ def index(request):
     list_of_entries = []
     for token in db.get_all_entries():
         (scriptAddress, sellerAddress, sellerHash, artistAddress, price, policyID, tokenName) = token
+        try:
+            amount = get_script_currency(scriptAddress)[policyID][tokenName]
+        except KeyError:
+            amount = 0
         if search_value is None:
             entry = {
                 'scriptAddress': scriptAddress,
@@ -360,6 +372,7 @@ def index(request):
                 'price'        : price,
                 'policyID'     : policyID,
                 'tokenName'    : tokenName,
+                'amount'       : amount,
                 'image'        : help.get_image(policyID, tokenName),
             }
             list_of_entries.append(entry)
@@ -374,6 +387,7 @@ def index(request):
                     'price'        : price,
                     'policyID'     : policyID,
                     'tokenName'    : tokenName,
+                    'amount'       : amount,
                     'image'        : help.get_image(policyID, tokenName),
                 }
                 list_of_entries.append(entry)

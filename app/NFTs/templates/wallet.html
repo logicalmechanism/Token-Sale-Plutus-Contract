@@ -25,7 +25,7 @@
         {% for key, values in tokens.items %}
             {% for token, attr in values.items %}
                 <div class="col">
-                    {% include 'token.html' with pid=key tkn=token image=attr.image selling='true'%}
+                    {% include 'token.html' with pid=key tkn=token image=attr.image selling='true' amount=attr.amount %}
                 </div>
             {% endfor %}    
         {% endfor %}

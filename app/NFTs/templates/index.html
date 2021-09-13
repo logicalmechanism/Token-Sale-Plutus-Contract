@@ -21,7 +21,7 @@
     <div class="row">
         {% for entry in entries %}
             <div class='col'>
-                {% include 'token.html' with buying='true' sellerHash=entry.sellerHash pid=entry.policyID tkn=entry.tokenName scriptAddress=entry.scriptAddress sellerAddress=entry.sellerAddress artistAddress=entry.artistAddress price=entry.price|intdiv:1000000 image=entry.image %}
+                {% include 'token.html' with buying='true' sellerHash=entry.sellerHash pid=entry.policyID tkn=entry.tokenName scriptAddress=entry.scriptAddress sellerAddress=entry.sellerAddress artistAddress=entry.artistAddress price=entry.price|intdiv:1000000 image=entry.image amount=entry.amount %}
             </div>
         {% endfor %}
     </div>
