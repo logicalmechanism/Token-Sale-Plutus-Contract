@@ -16,9 +16,9 @@
           <a class="nav-link btn btn-outline-info" href="order">Order Processing</a>
         </li>
         {% if collat_check|length > 0 %}
-            <li class="nav-item me-3 mt-sm-1"><h1><i class="bi bi-check-circle text-success"></i></h1></li>
+            <li class="nav-item me-3 mt-sm-1"><h1 class="text-center"><i class="bi bi-check-circle text-success"></i></h1></li>
         {% else %}
-            <li class="nav-item me-3 mt-sm-1"><a class="" aria-current="page" href="wallet"><h1><i class="bi bi-exclamation-octagon text-danger"></i></h1></a></li>
+            <li class="nav-item me-3 mt-sm-1"><a class="text-center" aria-current="page" href="wallet"><h1><i class="bi bi-exclamation-octagon text-danger"></i></h1></a></li>
         {% endif %}
         {% if ada %}
           <li class="nav-item me-3 mt-sm-1">

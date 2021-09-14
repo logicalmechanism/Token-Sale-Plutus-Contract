@@ -60,6 +60,9 @@ def get_ipfs_image_from_metadata(concat_of_policyID_and_tokenName):
 def get_image(pid, token):
     """
     Returns the IPFS url for the image inside a token's metadata.
+    
+    TODO: Download each image locally then serve them dynamically.
+    The wait time for loading images is painful.
     """
     # print(pid + token_name_to_hex_name(token), token)
     image = get_ipfs_image_from_metadata(pid+ token_name_to_hex_name(token))
