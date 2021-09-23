@@ -1,4 +1,4 @@
-# Token-Sale-Plutus-Contract
+# Cardano Simple Token Sale Smart Contract
 
 A repository of publicly verifiable token sale and royalty contracts. This will be the storage solution since it is easily attainable and usable. A more decentralized solution will come in the future but for now this will be the solution.
 
