@@ -1,1 +1,0 @@
-This folder will contain all publicly verified smart contracts for the royalty system.
