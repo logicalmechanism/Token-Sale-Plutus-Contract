@@ -40,7 +40,7 @@ def end(tmp, wallet_skey_path, wallet_addr, script_addr, cost, datum_hash, plutu
         # print(contract_utxo_in)
         _, final_tip, block = trx.tip(tmp)
         print('\nThe current block:', block)
-        utxo_out = trx.asset_change(tmp, script_currencies, wallet_addr, token_name, False)
+        utxo_out = trx.asset_change(tmp, script_currencies, wallet_addr) # This needs to create the output for the NFT being bought, with this it will give the change to the buyer, testing a seller change output logic
         utxo_out += trx.asset_change(tmp, currencies, wallet_addr) # Accounts for token change
         utxo_out += ['--tx-out', seller_addr+'+'+str(cost)]
         print('\nUTxO: ', utxo_out)
