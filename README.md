@@ -1,6 +1,6 @@
 # Cardano Simple Token Sale Smart Contract
 
-Forked from https://github.com/logicalmechanism/Token-Sale-Plutus-Contract, this project is simplified down to just a Cardano Plutus smart contract for a token sale, based on the original code from upstream, and a simplified and modified pair of Python scripts for the seller and buyer.
+Forked from https://github.com/logicalmechanism/Token-Sale-Plutus-Contract, this project is simplified down and has been modified to just a Cardano Plutus smart contract for a token sale, based on the original code from upstream, and a simplified and modified pair of Python scripts for the seller and buyer.
 
 # Usage
 
