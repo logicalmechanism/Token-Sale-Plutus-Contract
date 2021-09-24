@@ -58,3 +58,9 @@ cardano-cli address build --mainnet --payment-script-file FILE # Filepath of the
 The token sale python scripts inside the pythonscripts folder of the repository are modified from the original to prompt the seller or buyer for input. Both scripts have a collateral set to 2 ADA. The seller or buyer should create a UTxO in their wallet containing this collateral before they run the script.
 
 Each script will require user input. Instead of having the scripts auto complete it prompts the user to check the UTxO out, Datum hash, and the built transaction. If the information is correct the user can enter a confirmation to proceed with the transaction, submitting it to the blockchain.
+
+# Preparation
+
+The transactions.py script is required for both the sellToken.py and buyToken.py script. It is configured for testnet so should be modified per the comment in the file before using on mainnet.
+
+Both the buyToken.py and sellToken.py scripts will attempt to create a working tmp folder at their run location. If they error out you may need to manually create the tmp folder.
