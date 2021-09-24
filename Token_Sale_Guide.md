@@ -2,25 +2,6 @@
 
 This is a the guide to the token sale smart contract.
 
-Each smart contract addition must follow these folder layouts to be added into the smart contract folder.
-
-```
-pubKeyHash_lovelaceAmount/
-    ->  dist-newstyle/
-    ->  token-sale/
-            ->  app/
-                ->  token-sale.hs
-            ->  src/
-                ->  TokenSale.hs
-            ->  token_sale.plutus
-            ->  token-sale.cabal
-    ->  .gitignore
-    ->  cabal.project
-    ->  payment.vkey
-```
-
-The dist-newstyle folder will be auto ignored when added to the repository. The payment.vkey is the verification key for the token seller. The hash of this vkey file must match the pubKeyHash inside the folder name.
-
 ## The Haskell to change
 
 Look for this section of code inside the token-sale/src/TokenSale.hs file, starts around line 109. The file to be edited should be inside the folder copied into the contracts folder. Please only change the values of the seller address and the cost.
@@ -44,21 +25,27 @@ validator = Scripts.validatorScript (typedValidator ts)
                                , tsCost           = 10000000                                                                     -- Price for the token in lovelace
                                }
 ```
-The example above forces the buyer to pay the 10 ADA to the sellers address before the buyer can spend the token utxo.
+The example above forces the buyer to pay the 10 ADA to the sellers address in order for the buyer to spend the token utxo. The buyer tx occurs at once, paying the seller and retrieving the token.
 
 ## Compiling the plutus script
 
-Inside the folder will be the cabal.project file and the token-sale directory. Change the directory into token-sale and run the commands below.
+Inside the smartcontract folder will be the cabal.project file, from within this directory run the commands below. Be sure your ghc is at 8.10.4.
 
 ```bash
 cabal clean
-cabal build -w ghc-8.10.4
+cabal build
+cabal run token-sale
+```
+To make changes to the contract (such as creating a new one with a different seller address hash or price), make sure you've moved your previous .plutus script file (and saved a backup of your src/TokenSale.hs source file), then from the smartcontract directory issue:
+
+```bash
+cabal build
 cabal run token-sale
 ```
 
-Depending on your computer speed this may take a little while.
+The initial build may take a while depending on your Internet speed. 
 
-The folder should be named correctly and contain haskell code that when compiled following the instructions above will result in the correct plutus script. A correctly named folder will have the format pubKeyHash_lovelaceAmount.
+After the `run` command, the smart contract script file will have been exported as tokensale.plutus
 
 To get the smart contract address use the cardano-cli command below.
 
@@ -66,10 +53,8 @@ To get the smart contract address use the cardano-cli command below.
 cardano-cli address build --mainnet --payment-script-file FILE # Filepath of the plutus script.
 ```
 
-All additions that follow the format and can be compiled into the correct Plutus script will be added into the repository.
-
 ## Using The Token Sale Python Scripts
 
-The token sale python scripts inside the scripts folder of the repository are designed to be either hardcoded with addresses and paths or copied into seperate folders so the cli wallets can be accessed with ease. The scripts require the user to find the policy id and the token name to be sold. 
+The token sale python scripts inside the pythonscripts folder of the repository are modified from the original to prompt the seller or buyer for input. Both scripts have a collateral set to 2 ADA. The seller or buyer should create a UTxO in their wallet containing this collateral before they run the script.
 
-Each script will require user input. Instead of having the scripts auto complete it prompts the user to check the UTxO out, Datum hash, and any other data associated with the transaction. If the information is correct the user can enter a confirmation to proceed with the transaction, submitting it to the blockchain.
+Each script will require user input. Instead of having the scripts auto complete it prompts the user to check the UTxO out, Datum hash, and the built transaction. If the information is correct the user can enter a confirmation to proceed with the transaction, submitting it to the blockchain.
